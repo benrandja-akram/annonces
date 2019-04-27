@@ -14,23 +14,18 @@ import dz.esi.tdm1.annonces.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list_content.view.*
 import kotlinx.android.synthetic.main.item_list.*
+import android.support.annotation.NonNull
+import android.util.Log
+import com.bumptech.glide.Glide
+import com.myhexaville.smartimagepicker.ImagePicker
+import java.io.File
 
-/**
- * An activity representing a list of Pings. This activity
- * has different presentations for handset and tablet-size devices. On
- * handsets, the activity presents a list of items, which when touched,
- * lead to a [ItemDetailActivity] representing
- * item details. On tablets, the activity presents the list of items and
- * item details side-by-side using two vertical panes.
- */
+
+lateinit var recyclerList: RecyclerView
 class ItemListActivity : AppCompatActivity() {
 
-    /**
-     * Whether or not the activity is in two-pane mode, i.e. running on a tablet
-     * device.
-     */
     private var twoPane: Boolean = false
-
+    lateinit var imagePicker : ImagePicker
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
@@ -38,19 +33,15 @@ class ItemListActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         toolbar.title = title
 
-        fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+        fab.setOnClickListener {
+            val intent =  Intent(this, ItemCreateActivity::class.java)
+            this.startActivity(intent)
         }
 
         if (item_detail_container != null) {
-            // The detail container view will be present only in the
-            // large-screen layouts (res/values-w900dp).
-            // If this view is present, then the
-            // activity should be in two-pane mode.
             twoPane = true
         }
-
+        recyclerList = item_list
         setupRecyclerView(item_list)
     }
 
@@ -99,7 +90,14 @@ class ItemListActivity : AppCompatActivity() {
             val item = values[position]
             holder.idView.text = item.id
             holder.contentView.text = item.content
-
+            holder.apply {
+                price.text = item.price.toString()
+                if(!item.images.isEmpty()){
+                    Glide.with(holder.contentView.context)
+                        .load(item.images[0])
+                        .into(annonce_image)
+                }
+            }
             with(holder.itemView) {
                 tag = item
                 setOnClickListener(onClickListener)
@@ -111,6 +109,11 @@ class ItemListActivity : AppCompatActivity() {
         inner class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
             val idView: TextView = view.id_text
             val contentView: TextView = view.content
+            val annonce_image = view.annonce_image
+            val price = view.price
         }
+
+
     }
+
 }

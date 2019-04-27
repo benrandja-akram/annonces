@@ -1,18 +1,17 @@
 package dz.esi.tdm1.annonces.dummy
 
+import android.graphics.Bitmap
+import android.net.Uri
+import android.os.ParcelFileDescriptor
+import java.io.FileDescriptor
 import java.util.ArrayList
 import java.util.HashMap
 
-/**
- * Helper class for providing sample content for user interfaces created by
- * Android template wizards.
- *
- * TODO: Replace all uses of this class before publishing your app.
- */
+
 object DummyContent {
 
     /**
-     * An array of sample (dummy) items.
+     * An array of sample (dummy) annonces.
      */
     val ITEMS: MutableList<DummyItem> = ArrayList()
 
@@ -21,7 +20,7 @@ object DummyContent {
      */
     val ITEM_MAP: MutableMap<String, DummyItem> = HashMap()
 
-    private val COUNT = 25
+    private val COUNT = 1
 
     init {
         // Add some sample items.
@@ -36,22 +35,28 @@ object DummyContent {
     }
 
     private fun createDummyItem(position: Int): DummyItem {
-        return DummyItem(position.toString(), "Item " + position, makeDetails(position))
+        return DummyItem(position.toString(),
+            "Item " + position,
+            "Details",
+            "contact",
+            "contact",
+            0,
+            arrayListOf()
+        )
     }
-
-    private fun makeDetails(position: Int): String {
-        val builder = StringBuilder()
-        builder.append("Details about Item: ").append(position)
-        for (i in 0..position - 1) {
-            builder.append("\nMore details information here.")
-        }
-        return builder.toString()
-    }
-
     /**
      * A dummy item representing a piece of content.
      */
-    data class DummyItem(val id: String, val content: String, val details: String) {
+    class DummyItem(
+        id: String,
+        val content: String,
+        val details: String,
+        val vendeur: String,
+        val contact: String,
+        val price : Int,
+        val images: MutableList<Bitmap>) {
+        val id = if (id == "-1") (ITEMS.size +1 ).toString() else id
+
         override fun toString(): String = content
     }
 }
