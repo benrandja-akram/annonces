@@ -1,34 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
-              android:orientation="vertical"
               android:padding="8dp"
               android:layout_margin="10dp"
 >
 
     <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:scaleType="fitXY"
             android:maxHeight="450dp"
             android:id="@+id/annonce_image"
+            android:src="@mipmap/ic_launcher"
 
     />
-
-    <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="horizontal"
-            android:gravity="center"
-    >
-        <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
-        >
-
-            <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content">
 
                 <TextView
                         android:text="fhdoas"
@@ -36,17 +22,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_margin="@dimen/text_margin"
-                        android:textAppearance="?attr/textAppearanceListItem"/>
-
-                <TextView
-                        android:text="fhdoas"
-                        android:id="@+id/content"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_margin="@dimen/text_margin"
                         android:textAppearance="?attr/textAppearanceListItem"
+                        android:layout_toRightOf="@id/annonce_image"
                 />
-            </LinearLayout>
+
+    <TextView
+            android:text="fhdoas"
+            android:id="@+id/content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceListItem"
+            android:layout_toRightOf="@id/annonce_image"
+            android:layout_below="@id/id_text"
+            android:layout_marginTop="14dp" android:layout_marginLeft="19dp"
+            android:layout_marginStart="@dimen/text_margin" android:layout_marginEnd="@dimen/text_margin"
+            android:layout_marginBottom="@dimen/text_margin"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -55,22 +45,18 @@
                     android:textSize="18dp"
                     android:textColor="@android:color/holo_orange_dark"
                     android:layout_margin="8dp"
+                    android:layout_toRightOf="@id/id_text"
             />
 
-        </LinearLayout>
-        <View
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-        />
         <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@android:drawable/ic_menu_delete"
                 android:background="@android:color/transparent"
                 android:layout_margin="8dp"
-                android:tint="@color/colorAccent" android:id="@+id/deleteItem"/>
+                android:tint="@color/colorAccent" android:id="@+id/deleteItem"
+                android:layout_toRightOf="@id/price"
+        />
 
-    </LinearLayout>
 
-</LinearLayout>
+</RelativeLayout>
