@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Annonce Immobilieres</string>
     <string name="title_item_detail">Item Detail</string>
+    <string name="next">Next</string>
+    <string name="back">Back</string>
+    <string name="information_generales">Information generales</string>
+    <string name="titre">Titre</string>
+    <string name="description">Description</string>
+    <string name="vendeur">Vendeur</string>
+    <string name="telephone">Telephone</string>
+    <string name="ajouter_image">Ajouter Image</string>
 </resources>

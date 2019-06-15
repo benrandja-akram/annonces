@@ -95,6 +95,7 @@ class ItemListActivity : AppCompatActivity() {
                 if(!item.images.isEmpty()){
                     Glide.with(holder.contentView.context)
                         .load(item.images[0])
+                        .centerCrop()
                         .into(annonce_image)
                 }
             }
