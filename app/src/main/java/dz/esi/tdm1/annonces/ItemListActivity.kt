@@ -22,11 +22,11 @@ import java.io.File
 
 
 lateinit var recyclerList: RecyclerView
-class ItemListActivity : AppCompatActivity() {
+class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private var twoPane: Boolean = false
     lateinit var imagePicker : ImagePicker
-
+    var adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
@@ -44,15 +44,17 @@ class ItemListActivity : AppCompatActivity() {
         }
         recyclerList = item_list
         setupRecyclerView(item_list)
+
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
+        //recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
+        recyclerList.setAdapter(adapter)
     }
 
     class SimpleItemRecyclerViewAdapter(
         private val parentActivity: ItemListActivity,
-        private val values: List<DummyContent.DummyItem>,
+        private var values: MutableList<DummyContent.DummyItem>,
         private val twoPane: Boolean
     ) :
         RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
@@ -114,6 +116,13 @@ class ItemListActivity : AppCompatActivity() {
             val price = view.price
         }
 
+        fun updateList(newList: MutableList<DummyContent.DummyItem>) {
+            values = ArrayList<DummyContent.DummyItem>()
+            values.addAll(newList)
+            notifyDataSetChanged()
+
+        }
+
 
     }
 
@@ -123,9 +132,26 @@ class ItemListActivity : AppCompatActivity() {
        // inflater.inflate(R.menu.search_menu, menu)
         getMenuInflater().inflate(R.menu.search_menu, menu)
 
-
+        var menuItem : MenuItem? = menu?.findItem(R.id.search_bar)
+        var searchView:SearchView = menuItem?.getActionView() as SearchView
+        searchView.setOnQueryTextListener(this)
         return true
 
+    }
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        var userInput:String? = newText?.toLowerCase()
+        var newList:MutableList<DummyContent.DummyItem> = ArrayList<DummyContent.DummyItem>()
+        for(item in DummyContent.ITEMS){
+            if(item.content.toLowerCase().contains(userInput as CharSequence)){
+                newList.add(item)
+            }
+        }
+        adapter.updateList(newList)
+        return true
     }
 
 }
