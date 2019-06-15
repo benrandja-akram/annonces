@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.design.widget.Snackbar
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import android.widget.TextView
 
 import dz.esi.tdm1.annonces.dummy.DummyContent
@@ -16,6 +13,9 @@ import kotlinx.android.synthetic.main.item_list_content.view.*
 import kotlinx.android.synthetic.main.item_list.*
 import android.support.annotation.NonNull
 import android.util.Log
+import android.view.*
+import android.widget.ListAdapter
+import android.widget.SearchView
 import com.bumptech.glide.Glide
 import com.myhexaville.smartimagepicker.ImagePicker
 import java.io.File
@@ -26,6 +26,7 @@ class ItemListActivity : AppCompatActivity() {
 
     private var twoPane: Boolean = false
     lateinit var imagePicker : ImagePicker
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
@@ -113,6 +114,17 @@ class ItemListActivity : AppCompatActivity() {
             val price = view.price
         }
 
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
+        //var inflater: MenuInflater = getMenuInflater()
+       // inflater.inflate(R.menu.search_menu, menu)
+        getMenuInflater().inflate(R.menu.search_menu, menu)
+
+
+        return true
 
     }
 
