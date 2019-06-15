@@ -53,6 +53,12 @@ class ItemCreateActivity : AppCompatActivity() {
 
     }
 
+    override fun onStart() {
+        super.onStart()
+        supportActionBar?.title = "Créer une annonce"
+
+    }
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         imagePicker.handleActivityResult(resultCode, requestCode, data)
@@ -120,7 +126,6 @@ class ItemCreateActivity : AppCompatActivity() {
             }
             1 -> {
                 stepTitle.text = "Informations du vendeur"
-
                 back.isEnabled = true
                 next.text = "Next"
                 this.render(
