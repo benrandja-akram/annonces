@@ -9,4 +9,5 @@
                                         android:padding="16dp"
                                         app:layoutManager="LinearLayoutManager"
                                         tools:context=".ItemListActivity"
-                                        tools:listitem="@layout/item_list_content"/>
+                                        tools:listitem="@layout/item_list_content"
+                                        android:background="#f5f5f5"/>
