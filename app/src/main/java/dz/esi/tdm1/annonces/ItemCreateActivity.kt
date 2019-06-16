@@ -83,7 +83,8 @@ class ItemCreateActivity : AppCompatActivity() {
                         }
                     }
                     try {
-                        Integer.parseInt(price.text.toString())
+                        val p = Integer.parseInt(price.text.toString())
+                        if(p<0) throw  Exception()
                     }catch (e: Exception){
                         price.error = "valeur non valide"
                         return

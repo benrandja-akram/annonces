@@ -1,6 +1,9 @@
 package dz.esi.tdm1.annonces
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
@@ -34,6 +37,9 @@ class ItemDetailFragment : Fragment() {
                 // to load content from a content provider.
                 item = DummyContent.ITEM_MAP[it.getString(ARG_ITEM_ID)]
                 activity?.toolbar_layout?.title = item?.content
+                activity?.fab?.setOnClickListener { view ->
+                    startActivity(Intent(Intent.ACTION_DIAL, Uri.fromParts("tel", item?.contact, null)))
+                }
             }
         }
     }
@@ -53,7 +59,11 @@ class ItemDetailFragment : Fragment() {
             description.text = item?.details
             vendeur.text = item?.vendeur
             contact.text = item?.contact
-            images.setImageBitmap(item!!.images[0])
+//            images.setImageBitmap(item!!.images[0])
+            Glide.with(this!!)
+                .load(item?.images!![0])
+                .centerCrop()
+                .into(images)
             address.text = item?.address
 
 
