@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -89,7 +90,7 @@ class ItemCreateActivity : AppCompatActivity() {
                     }
                 }
                 1 -> {
-                    for(v in arrayOf(vendeur, contact)){
+                    for(v in arrayOf(vendeur, contact, address)){
                         if(v.text.toString().isEmpty()){
                             v.error = "champ obligatoire"
                             return
@@ -116,7 +117,7 @@ class ItemCreateActivity : AppCompatActivity() {
                 back.isEnabled = false
                 this.render(
                     arrayOf(
-                        vendeurContainer, telContainer, addPhoto, images_recycler
+                        vendeurContainer, telContainer, addressContainer, addPhoto, images_recycler
                     ),
                     arrayOf(
                         nameContainer, priceContainer,
@@ -133,7 +134,7 @@ class ItemCreateActivity : AppCompatActivity() {
                         nameContainer, priceContainer, descriptionContainer, addPhoto, images_recycler
                     ),
                     arrayOf(
-                        vendeurContainer, telContainer
+                        vendeurContainer, telContainer, addressContainer
                     )
                 )
             }
@@ -142,7 +143,7 @@ class ItemCreateActivity : AppCompatActivity() {
                 next.text = "Save"
                 this.render(
                     arrayOf(
-                        nameContainer, priceContainer, descriptionContainer, vendeurContainer, telContainer
+                        nameContainer, priceContainer, addressContainer, descriptionContainer, vendeurContainer, telContainer
                     ),
                     arrayOf(
                         addPhoto, images_recycler
@@ -190,16 +191,19 @@ class ItemCreateActivity : AppCompatActivity() {
         val newAnnonce = DummyContent.DummyItem(
             Integer(-1).toString(),
             name.text.toString(),
-            description.toString(),
+            description.text.toString(),
             vendeur.text.toString(),
             contact.text.toString(),
             Integer.parseInt(price.text.toString()),
-            bitmaps
+            bitmaps,
+            address.text.toString()
         )
         DummyContent.ITEMS.add(newAnnonce)
+        DummyContent.ITEM_MAP[newAnnonce.id] = newAnnonce
         recyclerList.adapter!!.notifyDataSetChanged()
         super.onBackPressed()
     }
+
     fun onCloseSnack(v: View?){
 
     }
