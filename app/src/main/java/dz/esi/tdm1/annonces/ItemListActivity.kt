@@ -55,6 +55,9 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
                     0 -> {
                         adapter.nameSort()
                     }
+                    1 -> {
+                        adapter.dateSort()
+                    }
                     else -> {
                         adapter.prixSort()
                     }
@@ -156,15 +159,15 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             })
         }
 
-/*
+
         fun dateSort() {
             values.sortWith(Comparator {item1, item2 ->
-                val date1 = Date(item1.date)
-                val date2 = Date(item2.date)
+                val date1 = (item1.date)
+                val date2 = (item2.date)
                 date1.compareTo(date2)
             })
         }
-*/
+
         fun prixSort() {
             values.sortWith(Comparator {item1, item2 ->
                 (item1.price - item2.price).toInt()

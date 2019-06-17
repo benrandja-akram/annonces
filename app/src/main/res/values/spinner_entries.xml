@@ -3,5 +3,6 @@
     <string-array name="spinner_entries">
         <item>Nom</item>
         <item>Prix</item>
+        <item>Date de dépot</item>
     </string-array>
 </resources>
