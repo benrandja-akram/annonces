@@ -39,7 +39,6 @@ class ItemCreateActivity : AppCompatActivity() {
             Log.i(STEP_KEY, savedInstanceState.getInt(STEP_KEY).toString())
             savedStep = savedInstanceState.getInt(STEP_KEY)
 
-
         }
         else {
             images = arrayListOf<Uri>()
@@ -70,10 +69,10 @@ class ItemCreateActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
-        for (i in 1..savedStep){
-            Log.i("step i ", i.toString())
-            step(1)
-        }
+//        for (i in 1..savedStep){
+//            Log.i("step i ", i.toString())
+//            step(1)
+//        }
         supportActionBar?.title = "Créer une annonce"
     }
 
