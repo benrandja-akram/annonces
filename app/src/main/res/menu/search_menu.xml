@@ -6,6 +6,6 @@
           android:title="Recherche"
           android:icon="@drawable/ic_menu_search"
           app:actionViewClass="android.widget.SearchView"
-          app:showAsAction="ifRoom|collapseActionView"
+          app:showAsAction="always"
     ></item>
 </menu>

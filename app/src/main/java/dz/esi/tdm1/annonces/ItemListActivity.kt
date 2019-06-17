@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
 import android.support.design.widget.Snackbar
-import android.widget.TextView
 
 import dz.esi.tdm1.annonces.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_item_list.*
@@ -14,8 +13,7 @@ import kotlinx.android.synthetic.main.item_list.*
 import android.support.annotation.NonNull
 import android.util.Log
 import android.view.*
-import android.widget.ListAdapter
-import android.widget.SearchView
+import android.widget.*
 import com.bumptech.glide.Glide
 import com.myhexaville.smartimagepicker.ImagePicker
 import java.io.File
@@ -42,13 +40,44 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         if (item_detail_container != null) {
             twoPane = true
         }
+        setupSpinner()
         recyclerList = item_list
         setupRecyclerView(item_list)
+
+
+
+    }
+
+    private fun setupSpinner() {
+        val spinner: Spinner = findViewById(R.id.sort_spinner)
+
+
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+
+            override fun onItemSelected(parent: AdapterView<*>, view: View, pos: Int, id: Long) {
+                when (pos) {
+                    0 -> {
+                        adapter.nameSort()
+                    }
+                    else -> {
+                        adapter.prixSort()
+                    }
+
+                }
+                adapter.notifyDataSetChanged()
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {
+                // Another interface callback
+            }
+
+        }
 
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        //recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
+        adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
+        //Previous code (worked): recyclerList.setAdapter(adapter)
         recyclerList.setAdapter(adapter)
     }
 
@@ -58,6 +87,7 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         private val twoPane: Boolean
     ) :
         RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
+
 
         private val onClickListener: View.OnClickListener
 
@@ -124,13 +154,33 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         }
 
+        fun nameSort() {
+            values.sortWith(Comparator {item1, item2 ->
+                item1.content.compareTo(item2.content)
+            })
+        }
+
+/*
+        fun dateSort() {
+            values.sortWith(Comparator {item1, item2 ->
+                val date1 = Date(item1.date)
+                val date2 = Date(item2.date)
+                date1.compareTo(date2)
+            })
+        }
+*/
+        fun prixSort() {
+            values.sortWith(Comparator {item1, item2 ->
+                (item1.price - item2.price).toInt()
+
+            })
+        }
+
 
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
-        //var inflater: MenuInflater = getMenuInflater()
-       // inflater.inflate(R.menu.search_menu, menu)
         getMenuInflater().inflate(R.menu.search_menu, menu)
 
         var menuItem : MenuItem? = menu?.findItem(R.id.search_bar)
@@ -147,7 +197,7 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         var userInput:String? = newText?.toLowerCase()
         var newList:MutableList<DummyContent.DummyItem> = ArrayList<DummyContent.DummyItem>()
         for(item in DummyContent.ITEMS){
-            if(item.content.toLowerCase().contains(userInput as CharSequence)){
+            if(item.content.toLowerCase().contains(userInput as CharSequence) ){
                 newList.add(item)
             }
         }

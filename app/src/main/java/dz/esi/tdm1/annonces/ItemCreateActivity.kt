@@ -15,6 +15,7 @@ import android.graphics.BitmapFactory
 import android.support.design.widget.Snackbar
 import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import com.bumptech.glide.Glide
@@ -198,6 +199,7 @@ class ItemCreateActivity : AppCompatActivity() {
         )
         DummyContent.ITEMS.add(newAnnonce)
         recyclerList.adapter!!.notifyDataSetChanged()
+        Log.i("fdsfsd", DummyContent.ITEMS.size.toString())
         super.onBackPressed()
     }
     fun onCloseSnack(v: View?){
