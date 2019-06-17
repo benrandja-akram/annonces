@@ -4,19 +4,15 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.RecyclerView
-import android.support.design.widget.Snackbar
 
-import dz.esi.tdm1.annonces.dummy.DummyContent
+import dz.esi.tdm1.annonces.model.Content
 import kotlinx.android.synthetic.main.activity_item_list.*
 import kotlinx.android.synthetic.main.item_list_content.view.*
 import kotlinx.android.synthetic.main.item_list.*
-import android.support.annotation.NonNull
-import android.util.Log
 import android.view.*
 import android.widget.*
 import com.bumptech.glide.Glide
 import com.myhexaville.smartimagepicker.ImagePicker
-import java.io.File
 
 
 lateinit var recyclerList: RecyclerView
@@ -24,7 +20,7 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private var twoPane: Boolean = false
     lateinit var imagePicker : ImagePicker
-    var adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
+    var adapter = SimpleItemRecyclerViewAdapter(this, Content.ITEMS, twoPane)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_list)
@@ -33,7 +29,7 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         toolbar.title = title
 
         fab.setOnClickListener {
-            val intent =  Intent(this, ItemCreateActivity::class.java)
+            val intent =  Intent(this, AnnonceCreateActivity::class.java)
             this.startActivity(intent)
         }
 
@@ -76,14 +72,14 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
+        adapter = SimpleItemRecyclerViewAdapter(this, Content.ITEMS, twoPane)
 
         recyclerList.setAdapter(adapter)
     }
 
     class SimpleItemRecyclerViewAdapter(
         private val parentActivity: ItemListActivity,
-        private var values: MutableList<DummyContent.DummyItem>,
+        private var values: MutableList<Content.Annonce>,
         private val twoPane: Boolean
     ) :
         RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder>() {
@@ -93,7 +89,7 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
         init {
             onClickListener = View.OnClickListener { v ->
-                val item = v.tag as DummyContent.DummyItem
+                val item = v.tag as Content.Annonce
                 if (twoPane) {
                     val fragment = ItemDetailFragment().apply {
                         arguments = Bundle().apply {
@@ -147,8 +143,8 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
             val price = view.price
         }
 
-        fun updateList(newList: MutableList<DummyContent.DummyItem>) {
-            values = ArrayList<DummyContent.DummyItem>()
+        fun updateList(newList: MutableList<Content.Annonce>) {
+            values = ArrayList<Content.Annonce>()
             values.addAll(newList)
             notifyDataSetChanged()
 
@@ -194,8 +190,8 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     override fun onQueryTextChange(newText: String?): Boolean {
         var userInput:String? = newText?.toLowerCase()
-        var newList:MutableList<DummyContent.DummyItem> = ArrayList<DummyContent.DummyItem>()
-        for(item in DummyContent.ITEMS){
+        var newList:MutableList<Content.Annonce> = ArrayList<Content.Annonce>()
+        for(item in Content.ITEMS){
             if(item.content.toLowerCase().contains(userInput as CharSequence) ){
                 newList.add(item)
             }

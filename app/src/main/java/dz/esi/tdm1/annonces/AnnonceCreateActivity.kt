@@ -3,9 +3,6 @@ package dz.esi.tdm1.annonces
 import android.net.Uri
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.ViewGroup
 import com.myhexaville.smartimagepicker.ImagePicker
 import kotlinx.android.synthetic.main.activity_item_create.*
 import android.content.Intent
@@ -16,15 +13,14 @@ import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import android.view.View
 import android.widget.Toast
-import com.bumptech.glide.Glide
-import dz.esi.tdm1.annonces.dummy.DummyContent
-import kotlinx.android.synthetic.main.annonce_image.view.*
+import dz.esi.tdm1.annonces.adapters.ImagesAdapter
+import dz.esi.tdm1.annonces.model.Content
 import kotlinx.android.synthetic.main.stepper.*
 import java.lang.Exception
 
-class ItemCreateActivity : AppCompatActivity() {
+class AnnonceCreateActivity : AppCompatActivity() {
     lateinit var images : ArrayList<Uri>
-    lateinit var myAdapter : MyAdapter
+    lateinit var imagesAdapter : ImagesAdapter
     lateinit var imagePicker: ImagePicker
     val IMAGES_KEY = "images"
     val STEP_KEY = "step"
@@ -35,19 +31,19 @@ class ItemCreateActivity : AppCompatActivity() {
         if(savedInstanceState != null)
         {
             images = savedInstanceState.getSerializable(IMAGES_KEY) as ArrayList<Uri>
-            myAdapter = MyAdapter(images)
+            imagesAdapter = ImagesAdapter(images)
             Log.i(STEP_KEY, savedInstanceState.getInt(STEP_KEY).toString())
             savedStep = savedInstanceState.getInt(STEP_KEY)
 
         }
         else {
             images = arrayListOf<Uri>()
-            myAdapter = MyAdapter(images)
+            imagesAdapter = ImagesAdapter(images)
         }
 
         images_recycler.apply {
-            layoutManager = GridLayoutManager(this@ItemCreateActivity, 3)
-            adapter = myAdapter
+            layoutManager = GridLayoutManager(this@AnnonceCreateActivity, 3)
+            adapter = imagesAdapter
         }
         addPhoto.setOnClickListener {
             imagePicker = ImagePicker(this, null) {
@@ -56,7 +52,7 @@ class ItemCreateActivity : AppCompatActivity() {
                     Toast.makeText(this, "Cet image deja existe", Toast.LENGTH_LONG).show()
                 } else {
                     images.add(it)
-                    myAdapter.notifyDataSetChanged()
+                    imagesAdapter.notifyDataSetChanged()
                 }
             }
             imagePicker.choosePicture(false)
@@ -205,7 +201,7 @@ class ItemCreateActivity : AppCompatActivity() {
             parcelFileDescriptor.close()
             bitmaps.add(image)
         }
-        val newAnnonce = DummyContent.DummyItem(
+        val newAnnonce = Content.Annonce(
             "-1",
             name.text.toString(),
             description.text.toString(),
@@ -215,10 +211,10 @@ class ItemCreateActivity : AppCompatActivity() {
             bitmaps,
             address.text.toString()
         )
-        DummyContent.ITEMS.add(newAnnonce)
-        DummyContent.ITEM_MAP[newAnnonce.id] = newAnnonce
+        Content.ITEMS.add(newAnnonce)
+        Content.ITEM_MAP[newAnnonce.id] = newAnnonce
         recyclerList.adapter!!.notifyDataSetChanged()
-        Log.i("fdsfsd", DummyContent.ITEMS.size.toString())
+        Log.i("fdsfsd", Content.ITEMS.size.toString())
         super.onBackPressed()
     }
 
@@ -234,25 +230,3 @@ class ItemCreateActivity : AppCompatActivity() {
 }
 
 
-class MyAdapter(private val myDataset: MutableList<Uri>) :
-    RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
-    class MyViewHolder(val view: View) : RecyclerView.ViewHolder(view)
-
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyAdapter.MyViewHolder {
-        val annonce = LayoutInflater.from(parent.context)
-            .inflate(R.layout.annonce_image, parent, false)
-
-        return MyViewHolder(annonce)
-    }
-
-    override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        Glide
-            .with(holder.view.annonce_image.context)
-            .load(myDataset[position])
-            .fitCenter()
-            .into(holder.view.annonce_image)
-//        holder.image.setImageURI(myDataset[position])
-    }
-
-    override fun getItemCount() = myDataset.size
-}

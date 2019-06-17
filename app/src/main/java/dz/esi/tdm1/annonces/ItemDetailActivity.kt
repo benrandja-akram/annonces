@@ -2,15 +2,9 @@ package dz.esi.tdm1.annonces
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.view.MenuItem
-import dz.esi.tdm1.annonces.dummy.DummyContent
 import kotlinx.android.synthetic.main.activity_item_detail.*
-import android.R.attr.phoneNumber
-import android.net.Uri
-import android.net.Uri.fromParts
-
 
 
 /**
