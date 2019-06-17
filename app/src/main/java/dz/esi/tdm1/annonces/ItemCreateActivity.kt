@@ -6,14 +6,12 @@ import android.os.Bundle
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.widget.ImageView
 import com.myhexaville.smartimagepicker.ImagePicker
 import kotlinx.android.synthetic.main.activity_item_create.*
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.support.design.widget.Snackbar
-import android.support.v7.widget.CardView
 import android.support.v7.widget.GridLayoutManager
 import android.util.Log
 import android.view.View
@@ -25,13 +23,28 @@ import kotlinx.android.synthetic.main.stepper.*
 import java.lang.Exception
 
 class ItemCreateActivity : AppCompatActivity() {
-    var images = mutableListOf<Uri>()
-    val myAdapter = MyAdapter(images)
+    lateinit var images : ArrayList<Uri>
+    lateinit var myAdapter : MyAdapter
     lateinit var imagePicker: ImagePicker
-
+    val IMAGES_KEY = "images"
+    val STEP_KEY = "step"
+    var savedStep = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_item_create)
+        if(savedInstanceState != null)
+        {
+            images = savedInstanceState.getSerializable(IMAGES_KEY) as ArrayList<Uri>
+            myAdapter = MyAdapter(images)
+            Log.i(STEP_KEY, savedInstanceState.getInt(STEP_KEY).toString())
+            savedStep = savedInstanceState.getInt(STEP_KEY)
+
+        }
+        else {
+            images = arrayListOf<Uri>()
+            myAdapter = MyAdapter(images)
+        }
+
         images_recycler.apply {
             layoutManager = GridLayoutManager(this@ItemCreateActivity, 3)
             adapter = myAdapter
@@ -40,7 +53,7 @@ class ItemCreateActivity : AppCompatActivity() {
             imagePicker = ImagePicker(this, null) {
                 val element = it
                 if (images.find { e -> e.toString() == element.toString() } != null) {
-                    Toast.makeText(this, "Cet image deja existe", Toast.LENGTH_LONG)
+                    Toast.makeText(this, "Cet image deja existe", Toast.LENGTH_LONG).show()
                 } else {
                     images.add(it)
                     myAdapter.notifyDataSetChanged()
@@ -56,8 +69,11 @@ class ItemCreateActivity : AppCompatActivity() {
 
     override fun onStart() {
         super.onStart()
+//        for (i in 1..savedStep){
+//            Log.i("step i ", i.toString())
+//            step(1)
+//        }
         supportActionBar?.title = "Créer une annonce"
-
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -83,14 +99,15 @@ class ItemCreateActivity : AppCompatActivity() {
                         }
                     }
                     try {
-                        Integer.parseInt(price.text.toString())
+                        val p = price.text.toString().toDouble()
+                        if(p<0) throw  Exception()
                     }catch (e: Exception){
                         price.error = "valeur non valide"
                         return
                     }
                 }
                 1 -> {
-                    for(v in arrayOf(vendeur, contact)){
+                    for(v in arrayOf(vendeur, contact, address)){
                         if(v.text.toString().isEmpty()){
                             v.error = "champ obligatoire"
                             return
@@ -117,7 +134,7 @@ class ItemCreateActivity : AppCompatActivity() {
                 back.isEnabled = false
                 this.render(
                     arrayOf(
-                        vendeurContainer, telContainer, addPhoto, images_recycler
+                        vendeurContainer, telContainer, addressContainer, addPhoto, images_recycler
                     ),
                     arrayOf(
                         nameContainer, priceContainer,
@@ -134,7 +151,7 @@ class ItemCreateActivity : AppCompatActivity() {
                         nameContainer, priceContainer, descriptionContainer, addPhoto, images_recycler
                     ),
                     arrayOf(
-                        vendeurContainer, telContainer
+                        vendeurContainer, telContainer, addressContainer
                     )
                 )
             }
@@ -143,7 +160,7 @@ class ItemCreateActivity : AppCompatActivity() {
                 next.text = "Save"
                 this.render(
                     arrayOf(
-                        nameContainer, priceContainer, descriptionContainer, vendeurContainer, telContainer
+                        nameContainer, priceContainer, addressContainer, descriptionContainer, vendeurContainer, telContainer
                     ),
                     arrayOf(
                         addPhoto, images_recycler
@@ -189,21 +206,30 @@ class ItemCreateActivity : AppCompatActivity() {
             bitmaps.add(image)
         }
         val newAnnonce = DummyContent.DummyItem(
-            Integer(-1).toString(),
+            "-1",
             name.text.toString(),
-            description.toString(),
+            description.text.toString(),
             vendeur.text.toString(),
             contact.text.toString(),
             Integer.parseInt(price.text.toString()),
-            bitmaps
+            bitmaps,
+            address.text.toString()
         )
         DummyContent.ITEMS.add(newAnnonce)
+        DummyContent.ITEM_MAP[newAnnonce.id] = newAnnonce
         recyclerList.adapter!!.notifyDataSetChanged()
         Log.i("fdsfsd", DummyContent.ITEMS.size.toString())
         super.onBackPressed()
     }
+
     fun onCloseSnack(v: View?){
 
+    }
+
+    override fun onSaveInstanceState(outState: Bundle?) {
+        outState?.putSerializable(IMAGES_KEY, images)
+        outState?.putInt(STEP_KEY, step)
+        super.onSaveInstanceState(outState)
     }
 }
 

@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-        xmlns:app="http://schemas.android.com/apk/res-auto" android:orientation="vertical"
-        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:android="http://schemas.android.com/apk/res/android"
+        android:orientation="vertical"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
 >
 
     <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fillViewport="true" android:id="@+id/scrollView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:fillViewport="true" android:id="@+id/scrollView2"
     >
         <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
@@ -82,13 +82,15 @@
                     app:layout_constraintHorizontal_bias="0.0" android:layout_marginTop="24dp"
                     app:layout_constraintTop_toBottomOf="@+id/priceContainer"
                     android:layout_marginStart="24dp"
+                    android:layout_marginBottom="12dp"
             >
 
                 <android.support.design.widget.TextInputEditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/description"
-                />
+                        android:lines="4"
+                        android:inputType="textMultiLine"/>
 
             </android.support.design.widget.TextInputLayout>
 
@@ -126,6 +128,7 @@
                     app:layout_constraintStart_toStartOf="@+id/vendeurContainer"
                     app:layout_constraintHorizontal_bias="1.0"
                     android:layout_marginTop="24dp"
+                    android:layout_marginBottom="12dp"
                     app:layout_constraintTop_toBottomOf="@+id/vendeurContainer"
                     android:layout_marginEnd="24dp" android:layout_marginStart="24dp">
 
@@ -137,7 +140,28 @@
 
             </android.support.design.widget.TextInputLayout>
 
+            <android.support.design.widget.TextInputLayout
+                    android:visibility="gone"
+                    style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Address"
+                    android:id="@+id/addressContainer"
+                    app:layout_constraintEnd_toEndOf="@+id/telContainer"
+                    app:layout_constraintStart_toStartOf="@+id/telContainer"
+                    app:layout_constraintHorizontal_bias="1.0"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginBottom="12dp"
+                    app:layout_constraintTop_toBottomOf="@+id/telContainer"
+                    android:layout_marginEnd="24dp" android:layout_marginStart="24dp">
 
+                <android.support.design.widget.TextInputEditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/address"
+                />
+
+            </android.support.design.widget.TextInputLayout>
             <android.support.v7.widget.RecyclerView
                     android:visibility="gone"
                     android:layout_width="0dp"
@@ -165,6 +189,7 @@
         </android.support.constraint.ConstraintLayout>
     </ScrollView>
     <include layout="@layout/stepper"
+             android:layout_marginTop="8dp"
              android:layout_width="match_parent"
              android:layout_height="wrap_content"
     />

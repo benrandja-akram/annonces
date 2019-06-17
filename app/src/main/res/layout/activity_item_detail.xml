@@ -23,10 +23,15 @@
                 app:contentScrim="?attr/colorPrimary"
                 app:layout_scrollFlags="scroll|exitUntilCollapsed"
                 app:toolbarId="@+id/toolbar">
-
+            <ImageView android:layout_width="match_parent"
+                       android:layout_height="match_parent"
+                       android:scaleType="fitXY"
+                       android:id="@+id/backImage"
+            />
             <android.support.v7.widget.Toolbar
                     android:id="@+id/detail_toolbar"
                     android:layout_width="match_parent"
+                    android:background="@color/colorPrimary"
                     android:layout_height="?attr/actionBarSize"
                     app:layout_collapseMode="pin"
                     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
@@ -47,8 +52,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical|start"
             android:layout_margin="@dimen/fab_margin"
-            app:srcCompat="@android:drawable/stat_notify_chat"
+            app:srcCompat="@android:drawable/stat_sys_phone_call_forward"
             app:layout_anchor="@+id/item_detail_container"
             app:layout_anchorGravity="top|end"/>
-
 </android.support.design.widget.CoordinatorLayout>

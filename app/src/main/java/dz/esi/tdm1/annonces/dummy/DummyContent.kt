@@ -20,33 +20,6 @@ object DummyContent {
      */
     val ITEM_MAP: MutableMap<String, DummyItem> = HashMap()
 
-    private val COUNT = 0
-
-    init {
-        // Add some sample items.
-        for (i in 1..COUNT) {
-            addItem(createDummyItem(i))
-        }
-    }
-
-    private fun addItem(item: DummyItem) {
-        ITEMS.add(item)
-        ITEM_MAP.put(item.id, item)
-    }
-
-    private fun createDummyItem(position: Int): DummyItem {
-        return DummyItem(position.toString(),
-            "Item " + position,
-            "Details",
-            "contact",
-            "contact",
-            0,
-            arrayListOf()
-        )
-    }
-    /**
-     * A dummy item representing a piece of content.
-     */
     class DummyItem(
         id: String,
         val content: String,
@@ -54,9 +27,10 @@ object DummyContent {
         val vendeur: String,
         val contact: String,
         val price : Int,
-        val images: MutableList<Bitmap>) {
+        val images: MutableList<Bitmap>,
+        val address: String) {
         val id = if (id == "-1") (ITEMS.size +1 ).toString() else id
 
-        override fun toString(): String = content
+        override fun toString(): String = details
     }
 }

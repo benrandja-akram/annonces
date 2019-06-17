@@ -77,7 +77,7 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
         adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
-        //Previous code (worked): recyclerList.setAdapter(adapter)
+
         recyclerList.setAdapter(adapter)
     }
 
@@ -182,7 +182,6 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
 
         getMenuInflater().inflate(R.menu.search_menu, menu)
-
         var menuItem : MenuItem? = menu?.findItem(R.id.search_bar)
         var searchView:SearchView = menuItem?.getActionView() as SearchView
         searchView.setOnQueryTextListener(this)
