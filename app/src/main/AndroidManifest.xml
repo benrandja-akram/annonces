@@ -30,6 +30,8 @@
                     android:name="android.support.PARENT_ACTIVITY"
                     android:value="dz.esi.tdm1.annonces.ItemListActivity"/>
         </activity>
-    </application>
 
+    </application>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
 </manifest>

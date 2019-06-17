@@ -59,10 +59,11 @@ class ItemDetailFragment : Fragment() {
             vendeur.text = item?.vendeur
             contact.text = item?.contact
 //            images.setImageBitmap(item!!.images[0])
-            Glide.with(this!!)
-                .load(item?.images!![0])
-                .centerCrop()
-                .into(images)
+//            Glide.with(this!!)
+//                .load(item?.images!![0])
+//                .centerCrop()
+//                .into(images)
+            images.setImageBitmap(item?.images!![0])
             address.text = item?.address
 
 
@@ -79,10 +80,12 @@ class ItemDetailFragment : Fragment() {
             view?.nextImage?.id ->   imageIndex++
             view?.previousImage?.id -> imageIndex--
         }
-        Glide.with(view!!)
-            .load(item?.images?.get(Math.abs((imageIndex) % size)))
-            .centerCrop()
-            .into(view!!.images)
+        view!!.images.setImageBitmap(item?.images?.get(Math.abs((imageIndex) % size)))
+
+//        Glide.with(view!!)
+//            .load(item?.images?.get(Math.abs((imageIndex) % size)))
+//            .fitCenter()
+
     }
     companion object {
         /**

@@ -41,7 +41,6 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         setupRecyclerView(item_list)
 
 
-
     }
 
     private fun setupSpinner() {
