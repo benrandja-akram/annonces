@@ -48,7 +48,7 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
     }
 
     private fun setupRecyclerView(recyclerView: RecyclerView) {
-        //recyclerView.adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
+        adapter = SimpleItemRecyclerViewAdapter(this, DummyContent.ITEMS, twoPane)
         recyclerList.setAdapter(adapter)
     }
 
@@ -132,7 +132,6 @@ class ItemListActivity : AppCompatActivity(), SearchView.OnQueryTextListener {
         //var inflater: MenuInflater = getMenuInflater()
        // inflater.inflate(R.menu.search_menu, menu)
         getMenuInflater().inflate(R.menu.search_menu, menu)
-
         var menuItem : MenuItem? = menu?.findItem(R.id.search_bar)
         var searchView:SearchView = menuItem?.getActionView() as SearchView
         searchView.setOnQueryTextListener(this)
